@@ -1,6 +1,7 @@
 // src/pages/Contact.jsx
 import React, { useRef, useState } from "react";
 import emailjs from "@emailjs/browser";
+import { Link } from "react-router-dom";
 
 const Contact = () => {
   const formRef = useRef();
@@ -33,16 +34,15 @@ const Contact = () => {
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-light tracking-wide">
           Contact Us
         </h1>
-         <p className="mt-3 text-sm opacity-90">
-          Home <span className="mx-2">›</span>{" "}
+        <p className="mt-3 text-sm opacity-90">
+          <Link to="/" className="underline">Home</Link>
+          <span className="mx-2">›</span>
           <span className="font-medium">Contact Us</span>
         </p>
-      
       </section>
 
       {/* CONTACT CONTENT */}
       <section className="max-w-7xl mx-auto px-4 sm:px-8 py-20">
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
           {/* LEFT COLUMN */}
@@ -50,7 +50,7 @@ const Contact = () => {
 
             {/* CONTACT INFO */}
             <div className="bg-white rounded-xl shadow-md p-8 space-y-4 text-gray-700">
-              <p>📍 Banepa, Nala, Nepal</p>
+              <p>📍 Banepa-4, Kavre, Nepal</p>
 
               <p>
                 ✉️{" "}
@@ -65,11 +65,11 @@ const Contact = () => {
               <p>
                 📞{" "}
                 <a href="tel:015344636" className="text-blue-600 hover:underline">
-                  01-5344636
+                  9841103044
                 </a>
                 ,{" "}
                 <a href="tel:015321365" className="text-blue-600 hover:underline">
-                  01-5321365
+                  9860865441
                 </a>
               </p>
             </div>
@@ -112,15 +112,24 @@ const Contact = () => {
                 className="w-full border-b border-gray-400 py-2 focus:outline-none"
               />
 
-              <input
-                name="subject"
-                placeholder="Subject"
-                className="w-full border-b border-gray-400 py-2 focus:outline-none"
-              />
+              {/* UPDATED: Program Interested */}
+              <select
+                name="program"
+                required
+                className="w-full border-b border-gray-400 py-2 focus:outline-none bg-transparent text-gray-700"
+              >
+                <option value="" disabled selected>
+                  Program Interested
+                </option>
+                <option value="Pre-School">Pre-School</option>
+                <option value="Basic Level (Grade 1–5)">Basic Level (Grade 1–5)</option>
+                <option value="Secondary Level (Grade 6–10)">Secondary Level (Grade 6–10)</option>
+                <option value="High School (Grade 11–12)">High School (Grade 11–12)</option>
+              </select>
 
               <textarea
                 name="message"
-                rows="4"
+                rows="1"
                 placeholder="Your Message"
                 required
                 className="w-full border-b border-gray-400 py-2 focus:outline-none"
@@ -148,7 +157,6 @@ const Contact = () => {
 
             </form>
           </div>
-
         </div>
       </section>
     </>
