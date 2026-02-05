@@ -11,6 +11,7 @@ const Footer = () => {
           color: white;
           padding: 7rem 3rem 2rem;
           border-top-right-radius: 12px;
+          border-top-left-radius: 12px;
           position: relative;
           margin-top: 80px;
         }
@@ -45,8 +46,8 @@ const Footer = () => {
           max-width: 1200px;
           margin: auto;
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-          gap: 3rem;
+         grid-template-columns: repeat(auto, 1fr);
+  gap: 1.5rem;
           margin-bottom: 2rem;
         }
 
@@ -145,16 +146,22 @@ const Footer = () => {
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-          .footer {
-            padding: 6rem 2rem 2rem;
-          }
+  .footer {
+    padding: 6rem 2rem 2rem;
+  }
 
-          .footer-circle-image {
-            width: 100px;
-            height: 100px;
-            border-width: 8px;
-          }
-        }
+  .footer-circle-image {
+    width: 100px;
+    height: 100px;
+    border-width: 8px;
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
       `}</style>
 
       <footer className="footer">
@@ -189,14 +196,20 @@ const Footer = () => {
             <p>Get our mobile application</p>
 
             <div className="store-buttons">
-              <a href="#" className="store-btn">
+              <a
+                href="https://apps.apple.com/np/app/spring-hill-e-b-s/id1565349229"
+                className="store-btn"
+              >
                 <img
                   src={Assets.AppStore}
                   alt="App Store"
                   className="store-img"
                 />
               </a>
-              <a href="#" className="store-btn">
+              <a
+                href="https://play.google.com/store/apps/details?id=com.qubexedu.shebs"
+                className="store-btn"
+              >
                 <img
                   src={Assets.PlayStore}
                   alt="Google Play"
@@ -208,7 +221,7 @@ const Footer = () => {
             <h3 style={{ marginTop: "2rem" }}>Follow Us</h3>
             <div className="social-links icon-only">
               <a
-                href="https://www.facebook.com/"
+                href="https://www.facebook.com/SHEBSBanepa"
                 className="social-icon"
                 aria-label="Facebook"
                 target="_blank"
@@ -218,7 +231,7 @@ const Footer = () => {
               </a>
 
               <a
-                href="https://www.tiktok.com/"
+                href="https://www.tiktok.com/@springhillschool3?_r=1&_t=ZS-93dRbbZeVts"
                 className="social-icon"
                 aria-label="TikTok"
                 target="_blank"

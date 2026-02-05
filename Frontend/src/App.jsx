@@ -28,6 +28,7 @@ const App = () => {
         <Route path="/Notice" element={<Notice />} />
         <Route path="/Program" element={<Program />} />
       </Routes>
+      <Footer />
     </>
   );
 };
