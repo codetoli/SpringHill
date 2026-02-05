@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Content Manager</title>
+  </head>
+  <body>
+    <script>
+    
+      window.CMS_MANUAL_INIT = true;
+    </script>
+    <script src="https://unpkg.com/decap-cms@latest/dist/decap-cms.js"></script>
+    <script>
+     
+      if (typeof Decap !== 'undefined' && Decap.init) {
+        Decap.init({ config: '/admin/config.yml' });
+      } else if (typeof window.CMS !== 'undefined' && window.CMS.init) {
+      
+        window.CMS.init({ config: '/admin/config.yml' });
+      } else {
+        console.error('Could not load Conent Manager');
+      }
+    </script>
+  </body>
+</html>

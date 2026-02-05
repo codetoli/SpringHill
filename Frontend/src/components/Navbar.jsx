@@ -388,7 +388,7 @@ function Navbar() {
               <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/events">Events</Link>
+              <Link to="/gallery">Events</Link>
             </li>
             <li>
               <Link to="/notice">Notice</Link>
@@ -437,8 +437,8 @@ function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/events" onClick={closeMobileMenu}>
-              Events
+            <Link to="/gallery" onClick={closeMobileMenu}>
+              Gallery
             </Link>
           </li>
           <li>
