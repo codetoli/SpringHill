@@ -11,7 +11,6 @@ import LatestNews from "./pages/LatestNews";
 import Notice from "./pages/Notice";
 import Program from "./pages/Program";
 import Navbar from "./components/Navbar";
-
 const App = () => {
   return (
     <>
@@ -28,6 +27,7 @@ const App = () => {
         <Route path="/Notice" element={<Notice />} />
         <Route path="/Program" element={<Program />} />
       </Routes>
+      <Footer />
     </>
   );
 };
