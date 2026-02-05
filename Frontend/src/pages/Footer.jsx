@@ -46,7 +46,7 @@ const Footer = () => {
           max-width: 1200px;
           margin: auto;
           display: grid;
-         grid-template-columns: repeat(auto, 1fr);
+         grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
           margin-bottom: 2rem;
         }
