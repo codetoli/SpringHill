@@ -176,11 +176,11 @@ const Footer = () => {
           {/* Quick Links */}
           <div className="footer-section">
             <h3>Quick Links</h3>
-            <a href="#home">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#events">Events</a>
-            <a href="#notice">Notice</a>
-            <a href="#contact">Contact Us</a>
+            <a href="/">Home</a>
+            <a href="/About">About Us</a>
+            <a href="/Events">Events</a>
+            <a href="/Notice">Notice</a>
+            <a href="/Contact">Contact Us</a>
           </div>
 
           {/* App + Social */}
