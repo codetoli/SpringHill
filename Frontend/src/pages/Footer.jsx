@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-
-=======
 import React from "react";
 import Assets from "../assets/assets.js";
 import { FaFacebookF, FaTiktok, FaWhatsapp } from "react-icons/fa";
@@ -263,12 +260,5 @@ const Footer = () => {
     </>
   );
 };
->>>>>>> 866caba0979f27e84b703a6b7d4fa50cbfd04575
 
-export default function Footer() {
-  return (
-    <footer>
-     
-    </footer>
-  );
-};
+export default Footer;
