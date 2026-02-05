@@ -9,7 +9,7 @@ const Footer = () => {
         .footer {
           background: #1C3F82;
           color: white;
-          padding: 7rem 3rem 2rem;
+          padding: 5rem 3rem 1.5rem;
           border-top-right-radius: 12px;
           border-top-left-radius: 12px;
           position: relative;
@@ -46,8 +46,8 @@ const Footer = () => {
           max-width: 1200px;
           margin: auto;
           display: grid;
-         grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.5rem;
           margin-bottom: 2rem;
         }
 
@@ -60,7 +60,7 @@ const Footer = () => {
         .footer-section p,
         .footer-section a {
           color: rgba(255, 255, 255, 0.85);
-          line-height: 1.8;
+          line-height: 1.4;
           text-decoration: none;
           display: block;
           margin-bottom: 0.5rem;
@@ -79,7 +79,7 @@ const Footer = () => {
           margin-top: 1rem;
         }
 
-        .store-btn 
+        .store-btn {
           border-radius: 8px;
           display: flex;
           justify-content: center;
@@ -87,54 +87,46 @@ const Footer = () => {
           transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .store-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
         .store-img {
-   
           max-width: 160px;
           height: auto;
         }
 
-    .social-links {
-  display: flex;
-  gap: 1.2rem;
-}
+        /* ===== SOCIAL ICONS ===== */
+        .social-links {
+          display: flex;
+          gap: 1.2rem;
+        }
 
-.icon-only .social-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-}
+        .icon-only .social-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-decoration: none;
+        }
 
-.icon-only .social-icon svg {
-  width: 26px;
-  height: 26px;
-  color: rgba(255, 255, 255, 0.85);
-  transition: color 0.3s ease, transform 0.3s ease;
-}
+        .icon-only .social-icon svg {
+          width: 26px;
+          height: 26px;
+          color: rgba(255, 255, 255, 0.85);
+          transition: color 0.3s ease, transform 0.3s ease;
+        }
 
-/* Hover colors (brand-based) */
-.icon-only .social-icon:hover svg {
-  transform: translateY(-2px);
-}
+        .icon-only .social-icon:hover svg {
+          transform: translateY(-2px);
+        }
 
-.icon-only .social-icon[aria-label="Facebook"]:hover svg {
-  color: #1877f2;
-}
+        .icon-only .social-icon[aria-label="Facebook"]:hover svg {
+          color: #1877f2;
+        }
 
-.icon-only .social-icon[aria-label="TikTok"]:hover svg {
-  color: #ffffff;
-}
+        .icon-only .social-icon[aria-label="TikTok"]:hover svg {
+          color: #ffffff;
+        }
 
-.icon-only .social-icon[aria-label="WhatsApp"]:hover svg {
-  color: #25d366;
-}
-
-
+        .icon-only .social-icon[aria-label="WhatsApp"]:hover svg {
+          color: #25d366;
+        }
 
         /* ===== FOOTER BOTTOM ===== */
         .footer-bottom {
@@ -146,22 +138,21 @@ const Footer = () => {
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-  .footer {
-    padding: 6rem 2rem 2rem;
-  }
+          .footer {
+            padding: 6rem 2rem 2rem;
+          }
 
-  .footer-circle-image {
-    width: 100px;
-    height: 100px;
-    border-width: 8px;
-  }
+          .footer-circle-image {
+            width: 100px;
+            height: 100px;
+            border-width: 8px;
+          }
 
-  .footer-content {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
-}
-
+          .footer-content {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+        }
       `}</style>
 
       <footer className="footer">
@@ -171,7 +162,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-content">
-          {/* Find Us */}
+          {/* 1️⃣ Find Us */}
           <div className="footer-section">
             <h3>Find Us</h3>
             <p>Spring Hill English Boarding School</p>
@@ -180,7 +171,7 @@ const Footer = () => {
             <p>✉️ springhill607@gmail.com</p>
           </div>
 
-          {/* Quick Links */}
+          {/* 2️⃣ Quick Links */}
           <div className="footer-section">
             <h3>Quick Links</h3>
             <a href="/">Home</a>
@@ -190,7 +181,7 @@ const Footer = () => {
             <a href="/Contact">Contact Us</a>
           </div>
 
-          {/* App + Social */}
+          {/* 3️⃣ Download App */}
           <div className="footer-section">
             <h3>Download App</h3>
             <p>Get our mobile application</p>
@@ -200,25 +191,25 @@ const Footer = () => {
                 href="https://apps.apple.com/np/app/spring-hill-e-b-s/id1565349229"
                 className="store-btn"
               >
-                <img
-                  src={Assets.AppStore}
-                  alt="App Store"
-                  className="store-img"
-                />
+                <img src={Assets.PlayStore} alt="App Store" className="store-img" />
               </a>
+
               <a
                 href="https://play.google.com/store/apps/details?id=com.qubexedu.shebs"
                 className="store-btn"
               >
                 <img
-                  src={Assets.PlayStore}
+                  src={Assets.AppStore}
                   alt="Google Play"
                   className="store-img"
                 />
               </a>
             </div>
+          </div>
 
-            <h3 style={{ marginTop: "2rem" }}>Follow Us</h3>
+          {/* 4️⃣ Follow Us */}
+          <div className="footer-section">
+            <h3>Follow Us</h3>
             <div className="social-links icon-only">
               <a
                 href="https://www.facebook.com/SHEBSBanepa"
@@ -231,7 +222,7 @@ const Footer = () => {
               </a>
 
               <a
-                href="https://www.tiktok.com/@springhillschool3?_r=1&_t=ZS-93dRbbZeVts"
+                href="https://www.tiktok.com/@springhillschool3"
                 className="social-icon"
                 aria-label="TikTok"
                 target="_blank"
