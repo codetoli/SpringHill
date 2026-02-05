@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route,useLocation } from "react-router-dom";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Enroll from "./pages/Enroll";
@@ -13,6 +13,10 @@ import Program from "./pages/Program";
 import Navbar from "./components/Navbar";
 
 const App = () => {
+  const location=useLocation();
+  if(location.pathname.startsWith("/admin")){
+    return null;
+  }
   return (
     <>
       <Navbar />
@@ -22,12 +26,14 @@ const App = () => {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Enroll" element={<Enroll />} />
         <Route path="/Follow" element={<Follow />} />
-        <Route path="/Foooter" element={<Footer />} />
+        <Route path="/Footer" element={<Footer />} />
         <Route path="/Latest" element={<LatestNews />} />
         <Route path="/Gallery" element={<Gallery />} />
         <Route path="/Notice" element={<Notice />} />
         <Route path="/Program" element={<Program />} />
+      
       </Routes>
+      <Footer/>
     </>
   );
 };
