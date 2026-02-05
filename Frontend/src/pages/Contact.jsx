@@ -16,14 +16,14 @@ const Contact = () => {
         "service_k48ed9k",
         "template_ik4do6t",
         formRef.current,
-        "R64jyQhjF8L6EJJSC"
+        "R64jyQhjF8L6EJJSC",
       )
       .then(
         () => {
           setStatus("success");
           formRef.current.reset();
         },
-        () => setStatus("error")
+        () => setStatus("error"),
       );
   };
 
@@ -35,7 +35,9 @@ const Contact = () => {
           Contact Us
         </h1>
         <p className="mt-3 text-sm opacity-90">
-          <Link to="/" className="underline">Home</Link>
+          <Link to="/" className="underline">
+            Home
+          </Link>
           <span className="mx-2">›</span>
           <span className="font-medium">Contact Us</span>
         </p>
@@ -44,10 +46,8 @@ const Contact = () => {
       {/* CONTACT CONTENT */}
       <section className="max-w-7xl mx-auto px-4 sm:px-8 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-
           {/* LEFT COLUMN */}
           <div className="space-y-8">
-
             {/* CONTACT INFO */}
             <div className="bg-white rounded-xl shadow-md p-8 space-y-4 text-gray-700">
               <p>📍 Banepa-4, Kavre, Nepal</p>
@@ -64,11 +64,17 @@ const Contact = () => {
 
               <p>
                 📞{" "}
-                <a href="tel:015344636" className="text-blue-600 hover:underline">
+                <a
+                  href="tel:015344636"
+                  className="text-blue-600 hover:underline"
+                >
                   9841103044
                 </a>
                 ,{" "}
-                <a href="tel:015321365" className="text-blue-600 hover:underline">
+                <a
+                  href="tel:015321365"
+                  className="text-blue-600 hover:underline"
+                >
                   9860865441
                 </a>
               </p>
@@ -90,7 +96,6 @@ const Contact = () => {
           {/* RIGHT COLUMN – FORM */}
           <div className="bg-white rounded-xl shadow-md p-8">
             <form ref={formRef} onSubmit={sendEmail} className="space-y-6">
-
               <input
                 name="name"
                 placeholder="Full Name"
@@ -122,9 +127,15 @@ const Contact = () => {
                   Program Interested
                 </option>
                 <option value="Pre-School">Pre-School</option>
-                <option value="Basic Level (Grade 1–5)">Basic Level (Grade 1–5)</option>
-                <option value="Secondary Level (Grade 6–10)">Secondary Level (Grade 6–10)</option>
-                <option value="High School (Grade 11–12)">High School (Grade 11–12)</option>
+                <option value="Basic Level (Grade 1–5)">
+                  Basic Level (Grade 1–5)
+                </option>
+                <option value="Secondary Level (Grade 6–10)">
+                  Secondary Level (Grade 6–10)
+                </option>
+                <option value="High School (Grade 11–12)">
+                  High School (Grade 11–12)
+                </option>
               </select>
 
               <textarea
@@ -154,7 +165,6 @@ const Contact = () => {
                   ❌ Failed to send message. Please try again later.
                 </p>
               )}
-
             </form>
           </div>
         </div>
