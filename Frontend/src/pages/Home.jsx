@@ -6,10 +6,10 @@ import campus2 from "../assets/campus2.jpeg";
 import campus3 from "../assets/campus3.jpeg";
 import campus4 from "../assets/campus4.jpeg";
 import Assets from "../assets/assets";
-import Notice from "./Notice";
+import Notice from "./LatestNews";
 
 function HomePage() {
-  // Why Choose SHEBS carousel state
+  // Why Choose SHEBS carousel sta  te
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const whyChooseData = [
@@ -205,7 +205,6 @@ function HomePage() {
           </div>
         </div>
       </section>
-
       {/* Get to Know SHEBS Section */}
       <section className="py-24 px-6 bg-white">
         <h2 className="text-4xl font-bold text-[#1C3F82] mb-16 text-center">
@@ -249,67 +248,9 @@ function HomePage() {
       {/* Latest News Section */}
       <section className="py-24 px-6 md:px-24 bg-white">
         {/* Header with arrows */}
-        <div className="flex justify-between items-center mb-12">
-          <h2 className="text-4xl font-bold text-[#1C3F82]">Latest News</h2>
-          <div className="flex gap-4">
-            <button
-              onClick={prevNews}
-              disabled={newsSlide === 0}
-              className="w-12 h-12 rounded-full bg-[#f54900] text-white flex items-center justify-center text-2xl hover:bg-[#e55a28] hover:scale-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              ←
-            </button>
-            <button
-              onClick={nextNews}
-              disabled={newsSlide >= newsData.length - 3}
-              className="w-12 h-12 rounded-full bg-[#FF6B34] text-white flex items-center justify-center text-2xl hover:bg-[#e55a28] hover:scale-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              →
-            </button>
-          </div>
-        </div>
-        <Notice />
-        {/* News Carousel */}
-        <div className="overflow-hidden">
-          <div
-            className="flex gap-8 transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${newsSlide * (100 / 3 + 2.67)}%)`,
-            }}
-          >
-            {newsData.map((news, index) => (
-              <div
-                key={index}
-                className="min-w-[calc(33.333%-1.5rem)] bg-white rounded-tl-3xl rounded-br-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all"
-              >
-                <img
-                  src={news.image}
-                  alt={news.title}
-                  className="w-full aspect-[4/3] object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-[#1C3F82] mb-2">
-                    {news.title}
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-4">{news.date}</p>
-                  <p className="text-base text-gray-600 leading-relaxed">
-                    {news.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Read All News Button */}
-        <div className="text-center mt-12">
-          <Link
-            to="/notice"
-            className="inline-block border-2 border-[#1C3F82] text-[#1C3F82] px-12 py-4 rounded-full text-lg font-semibold hover:bg-[#1C3F82] hover:text-white hover:-translate-y-1 transition-all"
-          >
-            Read All News
-          </Link>
-        </div>
+       
+        <Notice  />
+      
       </section>
     </div>
   );

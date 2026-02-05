@@ -1,254 +1,132 @@
 import React from "react";
-import Assets from "../assets/assets.js";
+import Assets from "../assets/assets";
 import { FaFacebookF, FaTiktok, FaWhatsapp } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <>
-      <style>{`
-        .footer {
-          background: #1C3F82;
-          color: white;
-          padding: 5rem 3rem 1.5rem;
-          border-top-right-radius: 12px;
-          border-top-left-radius: 12px;
-          position: relative;
-          margin-top: 80px;
-        }
+    <footer className="relative mt-20 bg-[#1C3F82] text-white rounded-t-xl px-6 pt-20 pb-6">
+      {/* Circle Logo */}
+      <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full bg-white border-[5px] border-[#f54900] shadow-xl flex items-center justify-center z-10">
+        <img
+          src={Assets.logo}
+          alt="Spring Hill School"
+          className="w-full h-full rounded-full object-cover"
+        />
+      </div>
 
-        /* ===== CIRCLE IMAGE ===== */
-        .footer-circle-image {
-          position: absolute;
-          top: 0;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 120px;
-          height: 120px;
-          border-radius: 50%;
-          background: white;
-          border: 5px solid #FF6B34;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-          z-index: 10;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .footer-circle-image img {
-          width: 100%;
-          height: 100%;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-
-        /* ===== CONTENT ===== */
-        .footer-content {
-          max-width: 1200px;
-          margin: auto;
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 1.5rem;
-          margin-bottom: 2rem;
-        }
-
-        .footer-section h3 {
-          font-size: 1.3rem;
-          margin-bottom: 1.5rem;
-          color: #FF6B34;
-        }
-
-        .footer-section p,
-        .footer-section a {
-          color: rgba(255, 255, 255, 0.85);
-          line-height: 1.4;
-          text-decoration: none;
-          display: block;
-          margin-bottom: 0.5rem;
-          transition: color 0.3s ease;
-        }
-
-        .footer-section a:hover {
-          color: #FF6B34;
-        }
-
-        /* ===== STORE BUTTONS ===== */
-        .store-buttons {
-          display: flex;
-          flex-direction: column;
-          gap: 0.8rem;
-          margin-top: 1rem;
-        }
-
-        .store-btn {
-          border-radius: 8px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .store-img {
-          max-width: 160px;
-          height: auto;
-        }
-
-        /* ===== SOCIAL ICONS ===== */
-        .social-links {
-          display: flex;
-          gap: 1.2rem;
-        }
-
-        .icon-only .social-icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          text-decoration: none;
-        }
-
-        .icon-only .social-icon svg {
-          width: 26px;
-          height: 26px;
-          color: rgba(255, 255, 255, 0.85);
-          transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        .icon-only .social-icon:hover svg {
-          transform: translateY(-2px);
-        }
-
-        .icon-only .social-icon[aria-label="Facebook"]:hover svg {
-          color: #1877f2;
-        }
-
-        .icon-only .social-icon[aria-label="TikTok"]:hover svg {
-          color: #ffffff;
-        }
-
-        .icon-only .social-icon[aria-label="WhatsApp"]:hover svg {
-          color: #25d366;
-        }
-
-        /* ===== FOOTER BOTTOM ===== */
-        .footer-bottom {
-          text-align: center;
-          padding-top: 2rem;
-          border-top: 1px solid rgba(255, 255, 255, 0.15);
-          color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 768px) {
-          .footer {
-            padding: 6rem 2rem 2rem;
-          }
-
-          .footer-circle-image {
-            width: 100px;
-            height: 100px;
-            border-width: 8px;
-          }
-
-          .footer-content {
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-          }
-        }
-      `}</style>
-
-      <footer className="footer">
-        {/* Logo */}
-        <div className="footer-circle-image">
-          <img src={Assets.logo} alt="Spring Hill School" />
+      {/* Content */}
+      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-10 text-left md:text-left">
+        <div>
+          <h3 className="text-xl text-[#f54900] mb-4">Find Us</h3>
+          <p>Spring Hill English Boarding School</p>
+          <p>📍 Banepa, Kavre, Nepal</p>
+          <p>📞 +977 985-1123372</p>
+          <p>✉️ springhill607@gmail.com</p>
         </div>
 
-        <div className="footer-content">
-          {/* 1️⃣ Find Us */}
-          <div className="footer-section">
-            <h3>Find Us</h3>
-            <p>Spring Hill English Boarding School</p>
-            <p>📍 Banepa, Kavre, Nepal</p>
-            <p>📞 +977 984-1103044</p>
-            <p>✉️ springhill607@gmail.com</p>
-          </div>
-
-          {/* 2️⃣ Quick Links */}
-          <div className="footer-section">
-            <h3>Quick Links</h3>
-            <a href="/">Home</a>
-            <a href="/About">About Us</a>
-            <a href="/Events">Events</a>
-            <a href="/Notice">Notice</a>
-            <a href="/Contact">Contact Us</a>
-          </div>
-
-          {/* 3️⃣ Download App */}
-          <div className="footer-section">
-            <h3>Download App</h3>
-            <p>Get our mobile application</p>
-
-            <div className="store-buttons">
-              <a
-                href="https://apps.apple.com/np/app/spring-hill-e-b-s/id1565349229"
-                className="store-btn"
-              >
-                <img src={Assets.PlayStore} alt="App Store" className="store-img" />
+        {/* Quick Links */}
+        <div>
+          <h3 className="text-xl text-[#f54900] mb-4">Quick Links</h3>
+          <ul className="space-y-2">
+            <li>
+              <a href="/" className="hover:text-[#f54900]">
+                Home
               </a>
-
-              <a
-                href="https://play.google.com/store/apps/details?id=com.qubexedu.shebs"
-                className="store-btn"
-              >
-                <img
-                  src={Assets.AppStore}
-                  alt="Google Play"
-                  className="store-img"
-                />
+            </li>
+            <li>
+              <a href="/About" className="hover:text-[#f54900]">
+                About Us
               </a>
-            </div>
-          </div>
-
-          {/* 4️⃣ Follow Us */}
-          <div className="footer-section">
-            <h3>Follow Us</h3>
-            <div className="social-links icon-only">
-              <a
-                href="https://www.facebook.com/SHEBSBanepa"
-                className="social-icon"
-                aria-label="Facebook"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaFacebookF />
+            </li>
+            <li>
+              <a href="/Events" className="hover:text-[#f54900]">
+                Events
               </a>
-
-              <a
-                href="https://www.tiktok.com/@springhillschool3"
-                className="social-icon"
-                aria-label="TikTok"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaTiktok />
+            </li>
+            <li>
+              <a href="/Notice" className="hover:text-[#f54900]">
+                Notice
               </a>
-
-              <a
-                href="https://wa.me/9779841103044"
-                className="social-icon"
-                aria-label="WhatsApp"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaWhatsapp />
+            </li>
+            <li>
+              <a href="/Contact" className="hover:text-[#f54900]">
+                Contact Us
               </a>
-            </div>
+            </li>
+          </ul>
+        </div>
+
+        {/* Download App */}
+        <div>
+          <h3 className="text-xl text-[#f54900] mb-4">Download App</h3>
+          <p className="mb-3">Get our mobile application</p>
+
+          <div className="flex flex-col gap-3">
+            <a
+              href="https://apps.apple.com/np/app/spring-hill-e-b-s/id1565349229"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={Assets.PlayStore}
+                alt="App Store"
+                className="max-w-[160px]"
+              />
+            </a>
+
+            <a
+              href="https://play.google.com/store/apps/details?id=com.qubexedu.shebs"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={Assets.AppStore}
+                alt="Google Play"
+                className="max-w-[160px]"
+              />
+            </a>
           </div>
         </div>
 
-        <div className="footer-bottom">
-          © 2026 Spring Hill English Boarding School. All rights reserved.
+        {/* Social */}
+        <div>
+          <h3 className="text-xl text-[#f54900] mb-4">Follow Us</h3>
+          <div className="flex gap-5 text-2xl">
+            <a
+              href="https://www.facebook.com/SHEBSBanepa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#1877f2]"
+            >
+              <FaFacebookF />
+            </a>
+
+            <a
+              href="https://www.tiktok.com/@springhillschool3"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-white"
+            >
+              <FaTiktok />
+            </a>
+
+            <a
+              href="https://wa.me/9779841103044"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#25d366]"
+            >
+              <FaWhatsapp />
+            </a>
+          </div>
         </div>
-      </footer>
-    </>
+      </div>
+
+      {/* Bottom */}
+      <div className="text-center text-sm text-white/60 border-t border-white/20 pt-4">
+        © 2026 Spring Hill English Boarding School. All rights reserved.
+      </div>
+    </footer>
   );
 };
 
