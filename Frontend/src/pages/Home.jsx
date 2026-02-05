@@ -39,42 +39,7 @@ function HomePage() {
     },
   ];
 
-  // Latest News carousel state
-  const [newsSlide, setNewsSlide] = useState(0);
 
-  const newsData = [
-    {
-      title: "Annual Sports Meet 2082",
-      date: "February 15, 2026",
-      description:
-        "Join us for our grand annual sports meet featuring inter-house competitions and awards.",
-      image:
-        "https://via.placeholder.com/400x300/1C3F82/ffffff?text=Sports+Meet",
-    },
-    {
-      title: "Picnic Program 2082",
-      date: "January 28, 2026",
-      description:
-        "Students enjoyed a wonderful day out at the botanical garden with educational activities.",
-      image: "https://via.placeholder.com/400x300/FF6B34/ffffff?text=Picnic",
-    },
-    {
-      title: "Saraswoti Puja 2082",
-      date: "January 25, 2026",
-      description:
-        "Traditional celebration of Saraswoti Puja with cultural programs and prayers.",
-      image:
-        "https://via.placeholder.com/400x300/1C3F82/ffffff?text=Saraswoti+Puja",
-    },
-    {
-      title: "Science Exhibition 2082",
-      date: "February 10, 2026",
-      description:
-        "Students showcased innovative science projects and experiments to parents and guests.",
-      image:
-        "https://via.placeholder.com/400x300/FF6B34/ffffff?text=Science+Fair",
-    },
-  ];
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % whyChooseData.length);
@@ -86,13 +51,7 @@ function HomePage() {
     );
   };
 
-  const nextNews = () => {
-    setNewsSlide((prev) => Math.min(prev + 1, newsData.length - 3));
-  };
-
-  const prevNews = () => {
-    setNewsSlide((prev) => Math.max(prev - 1, 0));
-  };
+  
 
   return (
     <div className="font-['Poppins']">

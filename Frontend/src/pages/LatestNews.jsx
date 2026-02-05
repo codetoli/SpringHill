@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LoadContent } from "../utils/LoadContent";
 import { X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Notice() {
   const [notices, setNotices] = useState([]);
@@ -29,10 +30,9 @@ export default function Notice() {
   return (
     <>
       <section className="max-w-7xl mx-auto px-6 py-12">
-        <h2 className="text-4xl font-serif text-[#006747] mb-10">
-          Latest Notices
+        <h2 className="text-4xl font-bold text-[#1C3F82] mb-16 text-center">
+          Latest News and Notices
         </h2>
-
         {/* NOTICE GRID */}
         {notices.length > 0 ? (
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -166,6 +166,14 @@ export default function Notice() {
           </div>
         </div>
       )}
+       <div className="text-center mt-12">
+          <Link
+            to="/notice"
+            className="inline-block border-2 border-[#1C3F82] text-[#1C3F82] px-12 py-4 rounded-full text-lg font-semibold hover:bg-[#1C3F82] hover:text-white hover:-translate-y-1 transition-all"
+          >
+            Read All News
+          </Link>
+        </div>
     </>
   );
 }
