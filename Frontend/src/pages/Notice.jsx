@@ -233,7 +233,7 @@ export default function Notice() {
 
               return (
                 <div className="p-10 rounded-xl bg-gray-50 border text-center">
-                  <span className="inline-block mb-4 px-5 py-1 text-sm
+                  <span className="inline-block mb-20 px-5 py-1 text-sm
                                    rounded-full bg-[#006747] text-white">
                     NOTICE
                   </span>
