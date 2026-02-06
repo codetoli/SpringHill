@@ -1,13 +1,12 @@
-local_backend: true
+local_backend: false
 
 backend:
   name: github
-  repo: dummy/dummy
-
+  repo: codetoli/SpringHill
+  branch: main 
 
 media_folder: "public/uploads"
 public_folder: "/uploads"
-
 
 collections:
   - name: "events"
@@ -49,6 +48,19 @@ collections:
          name: "file"
          widget: "file"
          required: false
-         
-       
 
+  # 🔒 Admin-only collection
+  - name: "admin-settings"
+    label: "Admin Settings (Hidden from normal editors)"
+    folder: "src/content/admin"
+    create: true
+    slug: "{{slug}}"
+    editor:
+      preview: false   # hides preview for normal users
+    fields:
+      - label: "Site Config"
+        name: "site_config"
+        widget: "object"
+        fields:
+          - { label: "Show Banner", name: "banner", widget: "boolean", default: true }
+          - { label: "Homepage Notice", name: "homepage_notice", widget: "string" }
