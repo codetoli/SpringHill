@@ -295,7 +295,7 @@ const About = () => {
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-16">
             <a
-              href="https://www.google.com/maps"
+              href="https://maps.app.goo.gl/16etKwWobai5nFng7"
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-3 px-12 py-5 bg-[#1C3F82] text-white rounded-full font-bold shadow-xl hover:bg-[#152e5f] transition-all hover:-translate-y-1"

@@ -175,15 +175,17 @@ const Contact = () => {
         {/* BOTTOM SECTION: FULL WIDTH MAP */}
         <section className="mt-10">
           <div className="overflow-hidden rounded-[2.5rem] shadow-2xl border-4 border-white bg-white h-[450px] relative">
-            <iframe
-              title="Spring Hill School Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3535.123456789!2d85.5234567!3d27.6234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDM3JzI0LjQiTiA4NcKwMzEnMjQuNCJF!5e0!3m2!1sen!2snp!4v1234567890"
-              className="w-full h-full border-0   transition-all duration-700"
-              allowFullScreen
-              loading="lazy"
-            />
+            <div className="overflow-hidden rounded-xl shadow-md">
+              <iframe
+                title="Spring Hill School Location"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6663.672968213963!2d85.50126501574405!3d27.65430084631961!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb0f002732c291%3A0xe38c519dc929c2aa!2sSpring%20Hill%20School%2C%20Banepa%2C%20Nala!5e0!3m2!1sen!2snp!5m2!1sen!2snp"
+                className="w-full h-175 border-0"
+                loading="lazy"
+                allowFullScreen
+              />
+            </div>
             {/* Floating Map Label */}
-            <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full shadow-lg flex items-center gap-3">
+            <div className="absolute top-6 right-6 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full shadow-lg flex items-center gap-3">
               <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
               <span className="text-xs font-bold text-[#1C3F82] uppercase tracking-widest">
                 Campus Live View

@@ -77,6 +77,10 @@ function HomePage() {
             students need to be constructive contributors to the world.
           </p>
 
+          <div className="inline-block bg-[#FF6B34] px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold text-sm md:text-base shadow-lg hover:bg-[#e55a28] transition-colors cursor-pointer mb-10">
+            <Link to="/Enroll">EXPLORE Programs</Link>
+          </div>
+
           <div className="flex flex-wrap gap-8 md:gap-10 mb-10">
             <div>
               <span className="block text-3xl md:text-4xl font-extrabold text-[#FF6B34]">
@@ -102,10 +106,6 @@ function HomePage() {
               </span>
               <span className="text-white/90 text-sm md:text-base">Years</span>
             </div>
-          </div>
-
-          <div className="inline-block bg-[#FF6B34] px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold text-sm md:text-base shadow-lg hover:bg-[#e55a28] transition-colors cursor-pointer">
-            Admissions Now Open for 2083 🎓
           </div>
         </div>
       </section>
