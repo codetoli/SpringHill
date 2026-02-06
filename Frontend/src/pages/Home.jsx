@@ -78,7 +78,7 @@ function HomePage() {
           </p>
 
           <div className="inline-block bg-[#FF6B34] px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold text-sm md:text-base shadow-lg hover:bg-[#e55a28] transition-colors cursor-pointer mb-10">
-            <Link to="/Enroll">EXPLORE Programs</Link>
+            <Link to="/Program">EXPLORE Programs</Link>
           </div>
 
           <div className="flex flex-wrap gap-8 md:gap-10 mb-10">
