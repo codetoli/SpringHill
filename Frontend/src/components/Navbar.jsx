@@ -146,7 +146,7 @@ function Navbar() {
           }
 
           .enroll-btn {
-            background: #FF6B34;
+            background: #f54900;
             color: white;
             width: 50px;
             height: 50px;
@@ -279,7 +279,7 @@ function Navbar() {
           }
 
           .mobile-enroll-btn {
-            background: #FF6B34;
+            background: #f54900;
             color: white;
             padding: 1rem 2rem;
             border-radius: 8px;
@@ -388,7 +388,7 @@ function Navbar() {
               <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/gallery">Events</Link>
+              <Link to="/events">Events</Link>
             </li>
             <li>
               <Link to="/notice">Notice</Link>
@@ -437,8 +437,8 @@ function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/gallery" onClick={closeMobileMenu}>
-              Gallery
+            <Link to="/events" onClick={closeMobileMenu}>
+              Events
             </Link>
           </li>
           <li>
