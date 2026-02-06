@@ -7,7 +7,7 @@ backend:
   branch: main
 
 # Media handling
-media_folder: "public/uploads"
+media_folder: "Frontend/public/uploads"
 public_folder: "/uploads"
 
 # Enable editorial workflow (optional but recommended)
@@ -37,7 +37,7 @@ collections:
   # =========================
   - name: "notices"
     label: "Notices"
-    folder: "src/content/notices"
+    folder: "Frontend/src/content/notices"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
@@ -65,7 +65,7 @@ collections:
   # =========================
   - name: "admin_settings"
     label: "Admin Settings"
-    folder: "src/content/admin"
+    folder: "Frontend/src/content/admin"
     create: true
     slug: "settings"
     editor:
