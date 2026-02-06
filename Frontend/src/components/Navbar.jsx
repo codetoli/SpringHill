@@ -146,7 +146,7 @@ function Navbar() {
           }
 
           .enroll-btn {
-            background: #FF6B34;
+            background: #f54900;
             color: white;
             width: 50px;
             height: 50px;
@@ -279,7 +279,7 @@ function Navbar() {
           }
 
           .mobile-enroll-btn {
-            background: #FF6B34;
+            background: #f54900;
             color: white;
             padding: 1rem 2rem;
             border-radius: 8px;
@@ -388,7 +388,7 @@ function Navbar() {
               <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/gallery">Events</Link>
+              <Link to="/Gallery">Gallery</Link>
             </li>
             <li>
               <Link to="/notice">Notice</Link>
@@ -401,9 +401,11 @@ function Navbar() {
 
         {/* Desktop Enroll Button */}
         <div className="enroll-btn-wrapper">
-          <button className="enroll-btn">
-            <span className="enroll-arrow">→</span>
-          </button>
+          <Link to="/Enroll">
+            <button className="enroll-btn">
+              <span className="enroll-arrow">→</span>
+            </button>
+          </Link>
         </div>
 
         {/* Hamburger Menu Button */}
@@ -437,7 +439,7 @@ function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/gallery" onClick={closeMobileMenu}>
+            <Link to="/Gallery" onClick={closeMobileMenu}>
               Gallery
             </Link>
           </li>
@@ -454,8 +456,10 @@ function Navbar() {
         </ul>
 
         <button className="mobile-enroll-btn" onClick={closeMobileMenu}>
-          <span>Enroll Now</span>
-          <span className="mobile-enroll-arrow">→</span>
+          <Link to="/Enroll" className="mobile-enroll-link">
+            <span>Enroll Now</span>
+            <span className="mobile-enroll-arrow">→</span>
+          </Link>
         </button>
       </div>
     </>

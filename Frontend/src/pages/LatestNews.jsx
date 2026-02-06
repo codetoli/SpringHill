@@ -1,16 +1,13 @@
 import { useEffect, useState } from "react";
 import { LoadContent } from "../utils/LoadContent";
-import { X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Notice() {
   const [notices, setNotices] = useState([]);
-  const [activeNotice, setActiveNotice] = useState(null);
 
   useEffect(() => {
     LoadContent("notices")
       .then((data) => {
-        // Sort by date descending (latest first) and take only 3
         const sorted = data
           .sort((a, b) => new Date(b.date) - new Date(a.date))
           .slice(0, 3);
@@ -29,48 +26,58 @@ export default function Notice() {
 
   return (
     <>
-      <section className="max-w-7xl mx-auto px-6 py-12">
-        <h2 className="text-4xl font-bold text-[#1C3F82] mb-16 text-center">
-          Latest News and Notices
-        </h2>
-        {/* NOTICE GRID */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* HEADER SECTION - Adjusted padding for mobile */}
+        <section className="bg-white mb-12">
+          <div className="flex justify-center text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#1C3F82] relative inline-block">
+              Latest News and Notices
+              <span
+                className="absolute left-1/2 -translate-x-1/2 -bottom-3
+                   h-[3px] bg-[#FF6B34]
+                   w-full animate-[underline_1.2s_ease-out]"
+              />
+            </h2>
+          </div>
+        </section>
+
         {notices.length > 0 ? (
-          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          /* RESPONSIVE GRID: 1 col on mobile, 2 on tablet, 3 on desktop */
+          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {notices.map((notice, index) => {
               const file = notice.image || notice.file || notice.pdf;
               const type = getFileType(file);
 
               return (
-                <article
+                <Link
                   key={index}
-                  onClick={() => setActiveNotice(notice)}
-                  className="cursor-pointer group border rounded-xl overflow-hidden
-                             bg-white hover:shadow-xl transition"
+                  to="/notice"
+                  className="group border overflow-hidden bg-white
+                             hover:shadow-xl transition
+                             rounded-tl-[80px] rounded-br-[80px]"
                 >
-                  {/* PREVIEW */}
-                  <div className="h-56 bg-gray-100 relative flex items-center justify-center">
+                  {/* IMAGE PREVIEW - Container remains identical */}
+                  <div className="h-64 bg-gray-100 relative overflow-hidden">
                     {type === "image" && (
                       <img
                         src={file}
                         alt={notice.title}
                         className="absolute inset-0 w-full h-full object-cover
-                                   group-hover:scale-105 transition"
+                                   group-hover:scale-105 transition-transform duration-300"
                       />
                     )}
 
                     {type === "pdf" && (
                       <iframe
                         src={`${file}#page=1&zoom=80`}
-                        className="w-full h-full"
+                        className="w-full h-full pointer-events-none"
                         title="PDF Preview"
                       />
                     )}
 
                     {type === "none" && (
-                      <div className="h-full w-full flex flex-col items-center justify-center
-                                      bg-gradient-to-br from-gray-50 to-gray-200">
-                        <span className="mb-4 px-4 py-1 text-xs font-semibold
-                                         rounded-full bg-[#006747] text-white">
+                      <div className="h-full w-full flex flex-col items-center justify-center bg-gray-100">
+                        <span className="mb-4 px-4 py-1 text-xs font-semibold rounded-full bg-[#006747] text-white">
                           NOTICE
                         </span>
                         <p className="px-6 text-center font-medium text-gray-700 line-clamp-3">
@@ -78,26 +85,26 @@ export default function Notice() {
                         </p>
                       </div>
                     )}
-                  </div>
 
-                  {/* CONTENT */}
-                  <div className="p-6">
-                    <h3 className="text-lg font-semibold text-[#006747] line-clamp-2">
-                      {notice.title}
-                    </h3>
-
-                    {notice.date && (
-                      <p className="text-sm text-gray-500 mt-2">{notice.date}</p>
-                    )}
+                    {/* TITLE OVERLAY - UI preserved */}
+                    <div
+                      className="absolute bottom-0 left-0 w-full bg-black/40
+                                 px-4 py-2 opacity-0 group-hover:opacity-100
+                                 transform translate-y-4 group-hover:translate-y-0
+                                 transition-all duration-300"
+                    >
+                      <h3 className="text-white text-lg font-semibold line-clamp-2">
+                        {notice.title}
+                      </h3>
+                    </div>
                   </div>
-                </article>
+                </Link>
               );
             })}
           </div>
         ) : (
-          /* EMPTY STATE */
-          <div className="text-center py-32 text-gray-500">
-            <h3 className="text-2xl font-semibold text-[#006747] mb-2">
+          <div className="text-center py-20 text-gray-500">
+            <h3 className="text-xl font-semibold text-[#006747] mb-2">
               No notices available
             </h3>
             <p>Please check back later for updates.</p>
@@ -105,75 +112,18 @@ export default function Notice() {
         )}
       </section>
 
-      {/* MODAL */}
-      {activeNotice && (
-        <div
-          className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-6"
-          onClick={() => setActiveNotice(null)}
+      {/* READ ALL BUTTON - Responsive font/padding */}
+      <div className="text-center mt-8 mb-16 px-4">
+        <Link
+          to="/notice"
+          className="inline-block border-2 border-[#1C3F82] text-[#1C3F82]
+                     px-8 sm:px-12 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold
+                     hover:bg-[#1C3F82] hover:text-white
+                     hover:-translate-y-1 transition-all"
         >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="bg-white max-w-3xl w-full rounded-xl p-8 relative"
-          >
-            <button
-              onClick={() => setActiveNotice(null)}
-              className="absolute top-4 right-4"
-            >
-              <X className="w-6 h-6 text-gray-600" />
-            </button>
-
-            <h2 className="text-2xl font-bold text-[#006747] mb-6">
-              {activeNotice.title}
-            </h2>
-
-            {(() => {
-              const file =
-                activeNotice.image || activeNotice.file || activeNotice.pdf;
-              const type = getFileType(file);
-
-              if (type === "image") {
-                return (
-                  <img
-                    src={file}
-                    alt={activeNotice.title}
-                    className="w-full rounded-lg"
-                  />
-                );
-              }
-
-              if (type === "pdf") {
-                return (
-                  <iframe
-                    src={file}
-                    className="w-full h-[450px] border rounded-lg"
-                    title="Notice PDF"
-                  />
-                );
-              }
-
-              return (
-                <div className="p-10 rounded-xl bg-gray-50 border text-center">
-                  <span className="inline-block mb-4 px-5 py-1 text-sm
-                                   rounded-full bg-[#006747] text-white">
-                    NOTICE
-                  </span>
-                  <p className="text-gray-700 text-lg">
-                    This notice does not include any attached file.
-                  </p>
-                </div>
-              );
-            })()}
-          </div>
-        </div>
-      )}
-       <div className="text-center mt-12">
-          <Link
-            to="/notice"
-            className="inline-block border-2 border-[#1C3F82] text-[#1C3F82] px-12 py-4 rounded-full text-lg font-semibold hover:bg-[#1C3F82] hover:text-white hover:-translate-y-1 transition-all"
-          >
-            Read All News
-          </Link>
-        </div>
+          Read All News
+        </Link>
+      </div>
     </>
   );
 }
