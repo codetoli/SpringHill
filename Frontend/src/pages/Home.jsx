@@ -6,7 +6,8 @@ import campus2 from "../assets/campus2.jpeg";
 import campus3 from "../assets/campus3.jpeg";
 import campus4 from "../assets/campus4.jpeg";
 import Assets from "../assets/assets";
-import Notice from "./Notice";
+import Notice from "./LatestNews";
+import messagefromprincipals from "../components/messagefromprincipals";
 
 function HomePage() {
   // Why Choose SHEBS carousel state
@@ -39,43 +40,6 @@ function HomePage() {
     },
   ];
 
-  // Latest News carousel state
-  const [newsSlide, setNewsSlide] = useState(0);
-
-  const newsData = [
-    {
-      title: "Annual Sports Meet 2082",
-      date: "February 15, 2026",
-      description:
-        "Join us for our grand annual sports meet featuring inter-house competitions and awards.",
-      image:
-        "https://via.placeholder.com/400x300/1C3F82/ffffff?text=Sports+Meet",
-    },
-    {
-      title: "Picnic Program 2082",
-      date: "January 28, 2026",
-      description:
-        "Students enjoyed a wonderful day out at the botanical garden with educational activities.",
-      image: "https://via.placeholder.com/400x300/FF6B34/ffffff?text=Picnic",
-    },
-    {
-      title: "Saraswoti Puja 2082",
-      date: "January 25, 2026",
-      description:
-        "Traditional celebration of Saraswoti Puja with cultural programs and prayers.",
-      image:
-        "https://via.placeholder.com/400x300/1C3F82/ffffff?text=Saraswoti+Puja",
-    },
-    {
-      title: "Science Exhibition 2082",
-      date: "February 10, 2026",
-      description:
-        "Students showcased innovative science projects and experiments to parents and guests.",
-      image:
-        "https://via.placeholder.com/400x300/FF6B34/ffffff?text=Science+Fair",
-    },
-  ];
-
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % whyChooseData.length);
   };
@@ -86,16 +50,8 @@ function HomePage() {
     );
   };
 
-  const nextNews = () => {
-    setNewsSlide((prev) => Math.min(prev + 1, newsData.length - 3));
-  };
-
-  const prevNews = () => {
-    setNewsSlide((prev) => Math.max(prev - 1, 0));
-  };
-
   return (
-    <div className="font-['Poppins']">
+    <div className="font-['Poppins'] overflow-x-hidden">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center px-6 md:px-24 pt-32 pb-16 overflow-hidden">
         {/* Background Image */}
@@ -106,115 +62,136 @@ function HomePage() {
         />
 
         {/* Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FFFFF]/70 to-blue-500/50" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#FFFFFF]/10 to-blue-900/60 md:to-blue-500/50" />
 
         {/* Content */}
         <div className="relative z-10 max-w-2xl text-left text-white">
-          <h1 className="text-3xl md:text-4xl font-bold mb-6">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 leading-tight">
             <span className="text-[#FDB913]">Quality Education</span> Since 1988
           </h1>
 
-          <p className="text-white/90 leading-relaxed mb-10">
+          <p className="text-white/95 text-base md:text-lg leading-relaxed mb-10 drop-shadow-md">
             Located at Nala, we have been providing quality education and
             skillful knowledge to develop the best manpower. Our mission is to
             develop the intellectual, ethical, and interpersonal foundations
             students need to be constructive contributors to the world.
           </p>
 
-          <div className="flex flex-wrap gap-10 mb-10">
+          <div className="flex flex-wrap gap-8 md:gap-10 mb-10">
             <div>
-              <span className="block text-4xl font-extrabold text-[#FF6B34]">
+              <span className="block text-3xl md:text-4xl font-extrabold text-[#FF6B34]">
                 1500+
               </span>
-              <span className="text-white/90">Students</span>
+              <span className="text-white/90 text-sm md:text-base">
+                Students
+              </span>
             </div>
 
             <div>
-              <span className="block text-4xl font-extrabold text-[#FF6B34]">
+              <span className="block text-3xl md:text-4xl font-extrabold text-[#FF6B34]">
                 PG – 12
               </span>
-              <span className="text-white/90">Classes</span>
+              <span className="text-white/90 text-sm md:text-base">
+                Classes
+              </span>
             </div>
 
             <div>
-              <span className="block text-4xl font-extrabold text-[#FF6B34]">
+              <span className="block text-3xl md:text-4xl font-extrabold text-[#FF6B34]">
                 35+
               </span>
-              <span className="text-white/90">Years</span>
+              <span className="text-white/90 text-sm md:text-base">Years</span>
             </div>
           </div>
 
-          <div className="inline-block bg-[#FF6B34] px-8 py-4 rounded-full font-semibold">
+          <div className="inline-block bg-[#FF6B34] px-6 py-3 md:px-8 md:py-4 rounded-full font-semibold text-sm md:text-base shadow-lg hover:bg-[#e55a28] transition-colors cursor-pointer">
             Admissions Now Open for 2083 🎓
           </div>
         </div>
       </section>
 
       {/* Why Choose SHEBS Section */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-[800px] mx-auto">
-          <h2 className="text-4xl font-bold text-[#1C3F82] mb-6 text-center">
-            Why Choose SHEBS
-          </h2>
+      <section className="py-16 px-6 bg-white">
+        <div className="max-w-[1000px] mx-auto">
+          {/* Header */}
+          <div className="text-center mb-12 md:mb-20">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#1C3F82] relative inline-block">
+              Why Choose SHEBS
+              <span
+                className="absolute left-1/2 -translate-x-1/2 -bottom-3
+                 h-[3px] bg-[#FF6B34]
+                 w-full animate-[underline_1.2s_ease-out]"
+              />
+            </h2>
+          </div>
 
-          <span className="block w-60 h-[2px] mx-auto bg-[#FF6B34] mb-10"></span>
-
-          <div className="flex flex-col md:flex-row gap-16 items-center">
-            {/* Content - Left */}
-            <div className="flex-1">
-              <div key={currentSlide} className="transition-all duration-500">
-                <h3 className="text-3xl text-[#1C3F82] mb-4 font-bold">
+          <div className="flex flex-col-reverse md:flex-row gap-12 md:gap-16 items-center">
+            {/* Content - Left (Bottom on mobile) */}
+            <div className="flex-1 text-center md:text-left">
+              <div
+                key={currentSlide}
+                className="transition-all duration-500 min-h-[160px]"
+              >
+                <h3 className="text-2xl md:text-3xl text-[#1C3F82] mb-4 font-bold">
                   {whyChooseData[currentSlide].title}
                 </h3>
-                <p className="text-lg text-gray-600 leading-relaxed mb-8">
+                <p className="text-base md:text-lg text-gray-600 leading-relaxed mb-8">
                   {whyChooseData[currentSlide].description}
                 </p>
               </div>
 
               {/* Arrow buttons */}
-              <div className="flex gap-4">
+              <div className="flex gap-4 justify-center md:justify-start">
                 <button
                   onClick={prevSlide}
-                  className="w-12 h-12 rounded-full bg-[#FF6B34] text-white flex items-center justify-center text-2xl hover:bg-[#e55a28] hover:scale-110 transition-all"
+                  className="w-12 h-12 rounded-full bg-[#FF6B34] text-white flex items-center justify-center text-2xl hover:bg-[#e55a28] hover:scale-110 transition-all shadow-md"
                 >
                   ←
                 </button>
                 <button
                   onClick={nextSlide}
-                  className="w-12 h-12 rounded-full bg-[#FF6B34] text-white flex items-center justify-center text-2xl hover:bg-[#e55a28] hover:scale-110 transition-all"
+                  className="w-12 h-12 rounded-full bg-[#FF6B34] text-white flex items-center justify-center text-2xl hover:bg-[#e55a28] hover:scale-110 transition-all shadow-md"
                 >
                   →
                 </button>
               </div>
             </div>
 
-            {/* Circular Image - Right with 10px offset border */}
+            {/* Circular Image - Right (Top on mobile) */}
             <div className="flex-1 flex justify-center items-center">
               <div className="relative">
-                {/* Offset circle border (10px = 2.5 in Tailwind with -inset-2.5) */}
+                {/* Offset circle border */}
                 <div className="absolute -inset-2.5 rounded-full border-4 border-[#FF6B34]"></div>
                 {/* Main circular image */}
                 <img
                   key={currentSlide}
                   src={whyChooseData[currentSlide].image}
                   alt={whyChooseData[currentSlide].title}
-                  className="relative w-80 h-80 rounded-full object-cover shadow-2xl transition-all duration-500"
+                  className="relative w-64 h-64 md:w-80 md:h-80 rounded-full object-cover shadow-2xl transition-all duration-500"
                 />
               </div>
             </div>
           </div>
         </div>
       </section>
-
+      <section>{messagefromprincipals()}</section>
       {/* Get to Know SHEBS Section */}
-      <section className="py-24 px-6 bg-white">
-        <h2 className="text-4xl font-bold text-[#1C3F82] mb-16 text-center">
-          GET TO KNOW SHEBS
-        </h2>
+      <section className="py-16 px-6 md:px-24 bg-white">
+        <div className="flex justify-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1C3F82] text-center relative inline-block uppercase">
+            Get to Know SHEBS
+            <span
+              className="absolute left-1/2 -translate-x-1/2 -bottom-3
+           h-[3px] bg-[#FF6B34]
+           w-full animate-[underline_1.2s_ease-out]"
+            />
+          </h2>
+        </div>
 
-        <div className="max-w-6xl mx-auto relative flex justify-center items-center">
-          {/* Image */}
-          <div className="relative w-full max-w-3xl aspect-video border-2 border-[#1C3F82] rounded-lg overflow-hidden">
+        {/* Wrapper */}
+        <div className="max-w-6xl mx-auto relative flex flex-col md:flex-row items-center justify-center">
+          {/* Image Container: 16:9 Aspect Ratio */}
+          <div className="relative w-full md:w-[85%] aspect-video border-2 border-[#1C3F82] rounded-lg overflow-hidden shadow-lg z-10">
             <img
               src={Assets.homebg}
               alt="Campus Life"
@@ -222,22 +199,37 @@ function HomePage() {
             />
           </div>
 
-          {/* Orange rectangle overlapping */}
+          {/* Orange Info Card: Proportional to 16:9 widescreen height */}
           <div
             className="
-        absolute
-        left-[-4rem] md:left-[-6rem] 
-        z-20
-        bg-[#FF6B34]
-        w-64 h-113 md:w-80
-        p-6 md:p-8
-        rounded-tl-[80px]
-        rounded-br-[80px]
-        shadow-xl
-        flex items-center
-      "
+          /* Shared Styles */
+          z-20 bg-[#FF6B34] text-white shadow-2xl flex items-center p-6 lg:p-8 transition-all duration-300 
+          rounded-tl-[70px] rounded-br-[70px] 
+
+          /* --- MOBILE VIEW --- */
+          relative 
+          w-[90%] 
+          -mt-10       /* Overlap pull for mobile */
+          mx-auto      
+          min-h-[140px] 
+
+          /* --- TABLET VIEW (md) --- */
+          md:absolute
+          md:mt-0      
+          md:top-1/2 
+          md:-translate-y-1/2
+          md:w-[240px]    
+          md:min-h-[280px] /* Shorter to match 16:9 height */
+          md:left-[-30px]  
+          md:mx-0      
+
+          /* --- DESKTOP VIEW (lg+) --- */
+          lg:w-[300px]    
+          lg:min-h-[340px] /* Balanced for widescreen look */
+          lg:left-[-50px]  /* Pushed further left to reveal more of the 16:9 image */
+        "
           >
-            <p className="text-white text-sm md:text-base leading-relaxed">
+            <p className="text-sm md:text-base lg:text-lg leading-relaxed font-medium">
               Spring Hill English Boarding School located at Nala has been
               providing quality education since 1988. We promise skillful
               knowledge to provide the best manpower.
@@ -247,69 +239,8 @@ function HomePage() {
       </section>
 
       {/* Latest News Section */}
-      <section className="py-24 px-6 md:px-24 bg-white">
-        {/* Header with arrows */}
-        <div className="flex justify-between items-center mb-12">
-          <h2 className="text-4xl font-bold text-[#1C3F82]">Latest News</h2>
-          <div className="flex gap-4">
-            <button
-              onClick={prevNews}
-              disabled={newsSlide === 0}
-              className="w-12 h-12 rounded-full bg-[#f54900] text-white flex items-center justify-center text-2xl hover:bg-[#e55a28] hover:scale-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              ←
-            </button>
-            <button
-              onClick={nextNews}
-              disabled={newsSlide >= newsData.length - 3}
-              className="w-12 h-12 rounded-full bg-[#FF6B34] text-white flex items-center justify-center text-2xl hover:bg-[#e55a28] hover:scale-110 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              →
-            </button>
-          </div>
-        </div>
+      <section className="py-16 px-6 md:px-24 bg-white">
         <Notice />
-        {/* News Carousel */}
-        <div className="overflow-hidden">
-          <div
-            className="flex gap-8 transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${newsSlide * (100 / 3 + 2.67)}%)`,
-            }}
-          >
-            {newsData.map((news, index) => (
-              <div
-                key={index}
-                className="min-w-[calc(33.333%-1.5rem)] bg-white rounded-tl-3xl rounded-br-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all"
-              >
-                <img
-                  src={news.image}
-                  alt={news.title}
-                  className="w-full aspect-[4/3] object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-[#1C3F82] mb-2">
-                    {news.title}
-                  </h3>
-                  <p className="text-sm text-gray-400 mb-4">{news.date}</p>
-                  <p className="text-base text-gray-600 leading-relaxed">
-                    {news.description}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Read All News Button */}
-        <div className="text-center mt-12">
-          <Link
-            to="/notice"
-            className="inline-block border-2 border-[#1C3F82] text-[#1C3F82] px-12 py-4 rounded-full text-lg font-semibold hover:bg-[#1C3F82] hover:text-white hover:-translate-y-1 transition-all"
-          >
-            Read All News
-          </Link>
-        </div>
       </section>
     </div>
   );

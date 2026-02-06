@@ -388,7 +388,7 @@ function Navbar() {
               <Link to="/about">About</Link>
             </li>
             <li>
-              <Link to="/events">Events</Link>
+              <Link to="/Gallery">Gallery</Link>
             </li>
             <li>
               <Link to="/notice">Notice</Link>
@@ -401,9 +401,11 @@ function Navbar() {
 
         {/* Desktop Enroll Button */}
         <div className="enroll-btn-wrapper">
-          <button className="enroll-btn">
-            <span className="enroll-arrow">→</span>
-          </button>
+          <Link to="/Enroll">
+            <button className="enroll-btn">
+              <span className="enroll-arrow">→</span>
+            </button>
+          </Link>
         </div>
 
         {/* Hamburger Menu Button */}
@@ -437,8 +439,8 @@ function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/events" onClick={closeMobileMenu}>
-              Events
+            <Link to="/Gallery" onClick={closeMobileMenu}>
+              Gallery
             </Link>
           </li>
           <li>
@@ -454,8 +456,10 @@ function Navbar() {
         </ul>
 
         <button className="mobile-enroll-btn" onClick={closeMobileMenu}>
-          <span>Enroll Now</span>
-          <span className="mobile-enroll-arrow">→</span>
+          <Link to="/Enroll" className="mobile-enroll-link">
+            <span>Enroll Now</span>
+            <span className="mobile-enroll-arrow">→</span>
+          </Link>
         </button>
       </div>
     </>
