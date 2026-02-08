@@ -1,112 +1,130 @@
 import { useEffect, useState } from "react";
-import { LoadContent } from "../utils/LoadContent";
-import { Maximize2, X } from "lucide-react";
-
-const ITEMS_PER_LOAD = 10;
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { db } from "../firebase";
+import { X, Maximize2, Loader2, Download } from "lucide-react";
+import Banner from "../components/Banner";
 
 export default function Gallery() {
   const [images, setImages] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_LOAD);
-  const [activeImage, setActiveImage] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedImg, setSelectedImg] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    LoadContent("events")
-      .then((events) => {
-        const allImages = events
-          .flatMap((event) => event.images || [])
-          .map((img) => img?.image?.url || img?.image || img?.url || img)
-          .filter((src) => typeof src === "string")
-          .reverse();
-        setImages(allImages);
-        setIsLoading(false);
-      })
-      .catch(() => setIsLoading(false));
+    const q = query(collection(db, "gallery"), orderBy("date", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      setImages(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      setLoading(false);
+    });
+    return () => unsubscribe();
   }, []);
 
-  const visibleImages = images.slice(0, visibleCount);
+  /**
+   * THE LOGIC FIX:
+   * 1. Checks all possible field names (imageUrl, pdfUrl, file).
+   * 2. If it's a PDF, it tells Cloudinary to show a JPG preview instead.
+   * 3. Adds 'f_auto,q_auto' to ensure the image loads fast and high quality.
+   */
+  const getPreviewUrl = (img) => {
+    let url = img.imageUrl || img.pdfUrl || img.file || "";
+
+    if (url.includes("cloudinary")) {
+      // Force preview even if it's a PDF by changing extension to .jpg
+      // Also optimizes quality (q_auto) and format (f_auto)
+      return url
+        .replace("/upload/", "/upload/f_auto,q_auto/")
+        .replace(".pdf", ".jpg");
+    }
+    return url;
+  };
 
   return (
     <div className="bg-white min-h-screen">
-      {/* --- HERO --- */}
-      <section className="bg-[#1C3F82] pt-32 pb-20 px-6 text-center text-white">
-        <h1 className="text-4xl md:text-5xl font-bold uppercase tracking-tight">
-          Inside the <span className="text-[#FF6B34]">SHEBS</span>
-        </h1>
-        <p className="mt-4 opacity-80 max-w-xl mx-auto">
-          Capturing the vibrant moments of our student life.
-        </p>
-      </section>
+      <Banner
+        title="School"
+        highlightText="Gallery"
+        breadcrumb="Gallery"
+        subtitle="Capturing moments, creating memories. A glimpse into our school life."
+      />
 
-      {/* --- BENTO GRID SECTION --- */}
-      <div className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 auto-rows-[250px] gap-4">
-          {visibleImages.map((src, index) => {
-            // Logic to create Bento effect: Every 5th image is tall, every 3rd is wide
-            const isWide = index % 5 === 0;
-            const isTall = index % 3 === 0 && !isWide;
-
-            return (
+      <section className="max-w-7xl mx-auto px-6 py-16">
+        {loading ? (
+          <div className="flex flex-col items-center py-32 text-gray-400">
+            <Loader2 className="animate-spin mb-4" size={40} />
+            <p className="font-bold text-xs uppercase tracking-widest">
+              Loading Media...
+            </p>
+          </div>
+        ) : (
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+            {images.map((img) => (
               <div
-                key={index}
-                onClick={() => setActiveImage(src)}
-                className={`
-                  relative group cursor-pointer overflow-hidden rounded-3xl bg-gray-100 shadow-sm
-                  transition-all duration-500 hover:shadow-xl
-                  ${isWide ? "lg:col-span-2" : ""} 
-                  ${isTall ? "lg:row-span-2" : ""}
-                `}
+                key={img.id}
+                onClick={() => setSelectedImg(img)}
+                className="break-inside-avoid relative group cursor-pointer overflow-hidden rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 bg-gray-50"
               >
+                {/* IMAGE PREVIEW - FIXED LOGIC */}
                 <img
-                  src={src}
-                  alt="School Event"
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  src={getPreviewUrl(img)}
+                  className="w-full h-auto group-hover:scale-110 transition-transform duration-700"
+                  alt={img.title}
+                  onError={(e) => {
+                    e.target.src =
+                      "https://placehold.co/600x400?text=Preview+Error";
+                  }}
                 />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <Maximize2 className="text-white w-8 h-8 transform scale-50 group-hover:scale-100 transition-transform" />
+
+                {/* SAME UI: Sliding Hover Effect */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1C3F82]/90 via-[#1C3F82]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-8 flex flex-col justify-end">
+                  <h4 className="text-white font-black text-2xl mb-1 translate-y-10 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                    {img.title}
+                  </h4>
+                  <div className="flex items-center gap-2 text-[#FF6B34] font-bold text-xs uppercase tracking-widest translate-y-10 group-hover:translate-y-0 transition-all duration-500 delay-100 ease-out">
+                    <Maximize2 size={16} /> View Fullscreen
+                  </div>
                 </div>
               </div>
-            );
-          })}
-        </div>
-
-        {/* --- LOAD MORE --- */}
-        {!isLoading && visibleCount < images.length && (
-          <div className="text-center mt-16">
-            <button
-              onClick={() => setVisibleCount((prev) => prev + ITEMS_PER_LOAD)}
-              className="px-10 py-4 border-2 border-[#1C3F82] text-[#1C3F82] rounded-full font-bold hover:bg-[#1C3F82] hover:text-white transition-all"
-            >
-              Load More Moments
-            </button>
+            ))}
           </div>
         )}
-      </div>
+      </section>
 
-      {/* --- LIGHTBOX (FIXED FOR OVER-NAVBAR) --- */}
-      {activeImage && (
+      {/* FULLSCREEN PREVIEW MODAL */}
+      {selectedImg && (
         <div
-          className="fixed inset-0 w-full h-full flex items-center justify-center bg-black/95 z-[9999] p-4 md:p-10 animate-in fade-in duration-200"
-          onClick={() => setActiveImage(null)}
+          className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-10"
+          onClick={() => setSelectedImg(null)}
         >
-          {/* Close Button */}
-          <button
-            className="absolute top-8 right-8 text-white z-[10000] hover:text-[#FF6B34] transition-colors"
-            onClick={() => setActiveImage(null)}
-          >
-            <X size={48} strokeWidth={1.5} />
+          <button className="absolute top-8 right-8 text-white/70 hover:text-white transition-colors">
+            <X size={40} />
           </button>
 
-          <img
-            src={activeImage}
-            alt="Preview"
-            className="max-w-[95vw] max-h-[95vh] object-contain rounded-lg shadow-2xl animate-in zoom-in-95 duration-300"
+          <div
+            className="relative w-full max-w-5xl flex flex-col items-center"
             onClick={(e) => e.stopPropagation()}
-          />
+          >
+            <img
+              src={getPreviewUrl(selectedImg)}
+              className="max-w-full max-h-[75vh] rounded-3xl shadow-2xl object-contain border-4 border-white/5"
+              alt={selectedImg.title}
+            />
 
-          <p className="absolute bottom-6 text-white/40 text-xs tracking-widest uppercase pointer-events-none">
-            Click anywhere to exit
-          </p>
+            <div className="mt-8 text-center">
+              <h3 className="text-white font-black text-2xl md:text-3xl mb-4">
+                {selectedImg.title}
+              </h3>
+              <a
+                href={
+                  selectedImg.imageUrl || selectedImg.pdfUrl || selectedImg.file
+                }
+                target="_blank"
+                rel="noreferrer"
+                download
+                className="inline-flex items-center gap-2 bg-white text-[#1C3F82] px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-[#FF6B34] hover:text-white transition-all shadow-xl"
+              >
+                <Download size={18} /> Download High Quality
+              </a>
+            </div>
+          </div>
         </div>
       )}
     </div>

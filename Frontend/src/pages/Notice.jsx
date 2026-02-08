@@ -1,21 +1,28 @@
 import { useEffect, useState } from "react";
-import { LoadContent } from "../utils/LoadContent";
-import { Search, X, Maximize, Download } from "lucide-react";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+import { db } from "../firebase";
+import {
+  Search,
+  X,
+  Maximize,
+  Loader2,
+  FileText,
+  Download,
+  AlertCircle,
+} from "lucide-react";
 import Banner from "../components/Banner";
 
-const ITEMS_PER_LOAD = 6; // Changed to 6 for grid symmetry
-
-const formatDate = (dateString) => {
-  if (!dateString) return "";
+const formatDate = (date) => {
+  if (!date) return "";
   try {
-    const date = new Date(dateString);
-    return date.toLocaleDateString("en-GB", {
+    const d = date?.toDate ? date.toDate() : new Date(date);
+    return d.toLocaleDateString("en-GB", {
       day: "2-digit",
       month: "long",
       year: "numeric",
     });
   } catch {
-    return "";
+    return "Recent Update";
   }
 };
 
@@ -23,224 +30,265 @@ export default function Notice() {
   const [notices, setNotices] = useState([]);
   const [activeNotice, setActiveNotice] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
-  const [query, setQuery] = useState("");
-  const [visibleCount, setVisibleCount] = useState(ITEMS_PER_LOAD);
+  const [queryStr, setQueryStr] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    LoadContent("notices")
-      .then((data) => {
-        const sorted = data.sort((a, b) => new Date(b.date) - new Date(a.date));
-        setNotices(sorted);
-      })
-      .catch(console.error);
+    if (activeNotice) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [activeNotice]);
+
+  useEffect(() => {
+    const q = query(collection(db, "notices"), orderBy("date", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setNotices(data);
+      setLoading(false);
+    });
+    return () => unsubscribe();
   }, []);
 
+  /**
+   * REFINED LOGIC:
+   * Detects file type more accurately by checking for common image patterns.
+   * If it contains .pdf, it's a PDF. Otherwise, we treat it as an image
+   * to ensure <img> tag handles the rendering.
+   */
   const getFileType = (url) => {
     if (!url) return "none";
-    const ext = url.split(".").pop().toLowerCase().split("?")[0]; // Handle URLs with params
-    if (ext === "pdf") return "pdf";
-    if (["jpg", "jpeg", "png", "webp", "gif"].includes(ext)) return "image";
-    return "none";
+    const lowerUrl = url.toLowerCase();
+
+    // PDF is only assumed if the extension is explicitly present
+    if (lowerUrl.includes(".pdf")) {
+      return "pdf";
+    }
+    // Default to image for Cloudinary links or typical image extensions
+    return "image";
   };
 
   const filteredNotices = notices.filter((n) =>
-    n.title?.toLowerCase().includes(query.toLowerCase()),
+    n.title?.toLowerCase().includes(queryStr.toLowerCase()),
   );
 
-  const visibleNotices = filteredNotices.slice(0, visibleCount);
-
-  // Helper to close modal
   const closeModal = () => {
     setActiveNotice(null);
     setIsFullScreen(false);
   };
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-[#F9FBFF] min-h-screen font-sans">
       <Banner
-        title="News and"
+        title="School"
         highlightText="Notices"
-        breadcrumb="News & Notices"
-        subtitle="Stay updated with the latest announcements, events, and circulars from SHEBS."
+        breadcrumb="Notices"
+        subtitle="Official circulars and daily updates from the school management."
       />
 
-      <section className="max-w-7xl mx-auto px-6 py-20">
-        {/* HEADER & SEARCH */}
+      <section className="max-w-7xl mx-auto px-6 py-16">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-          <h2 className="text-4xl font-bold text-[#1C3F82] uppercase tracking-tight">
-            Latest Updates
-            <div className="h-1 w-20 bg-[#FF6B34] mt-2" />
-          </h2>
-
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <div className="relative w-full md:w-96">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder="Search notices..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-3 border-2 border-gray-100 rounded-xl focus:outline-none focus:border-[#1C3F82] transition-all"
+              placeholder="Search by keyword..."
+              value={queryStr}
+              onChange={(e) => setQueryStr(e.target.value)}
+              className="w-full pl-12 pr-4 py-4 bg-white border-none shadow-sm rounded-2xl focus:ring-2 focus:ring-[#1C3F82] transition-all outline-none"
             />
-            {query && (
-              <button
-                onClick={() => setQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2"
-              >
-                <X className="w-5 h-5 text-gray-400 hover:text-red-500" />
-              </button>
-            )}
           </div>
         </div>
 
-        {/* GRID */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {visibleNotices.map((notice, index) => {
-            const file = notice.image || notice.file || notice.pdf;
-            const type = getFileType(file);
+        {loading ? (
+          <div className="flex flex-col items-center py-32 text-gray-400">
+            <Loader2 className="animate-spin mb-4" size={40} />
+            <p className="font-bold text-xs uppercase tracking-widest">
+              Accessing Firestore...
+            </p>
+          </div>
+        ) : filteredNotices.length === 0 ? (
+          <div className="flex flex-col items-center py-20 text-center">
+            <div className="bg-white p-6 rounded-full shadow-sm mb-4">
+              <Search size={48} className="text-gray-200" />
+            </div>
+            <h3 className="text-xl font-bold text-slate-800">
+              No notices found
+            </h3>
+            <p className="text-slate-500">
+              Try searching for a different keyword.
+            </p>
+          </div>
+        ) : (
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+            {filteredNotices.map((notice) => {
+              // LOGIC: Use a consistent source field
+              const fileLink = notice.pdfUrl || notice.imageUrl || notice.file;
+              const type = getFileType(fileLink);
 
-            return (
-              <article
-                key={index}
-                onClick={() => setActiveNotice(notice)}
-                className="group cursor-pointer bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden flex flex-col"
-              >
-                {/* PREVIEW THUMBNAIL */}
-                <div className="h-52 bg-gray-50 relative overflow-hidden">
-                  {type === "image" ? (
-                    <img
-                      src={file}
-                      alt=""
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                  ) : type === "pdf" ? (
-                    <div className="w-full h-full flex flex-col items-center justify-center bg-red-50 text-red-500">
-                      <span className="text-4xl mb-2">📄</span>
-                      <span className="text-xs font-bold uppercase tracking-widest">
-                        View PDF Notice
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-[#1C3F82]/5 p-6 text-center">
-                      <p className="text-[#1C3F82] font-semibold text-sm line-clamp-3">
-                        {notice.title}
-                      </p>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-[#1C3F82]/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <div className="bg-white p-3 rounded-full shadow-lg">
-                      <Maximize className="w-6 h-6 text-[#1C3F82]" />
-                    </div>
+              // LOGIC: If it's a PDF, Cloudinary allows a .jpg extension swap for a preview thumb
+              const thumbUrl =
+                type === "pdf" && fileLink.includes("cloudinary")
+                  ? fileLink.replace(".pdf", ".jpg")
+                  : fileLink;
+
+              return (
+                <article
+                  key={notice.id}
+                  onClick={() => setActiveNotice(notice)}
+                  className="break-inside-avoid mb-2 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden flex flex-col group"
+                >
+                  <div className="relative w-full h-48 sm:h-56 overflow-hidden bg-gray-50">
+                    {fileLink ? (
+                      <img
+                        src={thumbUrl}
+                        alt=""
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                        onError={(e) => {
+                          e.target.src =
+                            "https://placehold.co/600x400?text=Notice+Preview";
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <FileText size={40} className="text-gray-200" />
+                      </div>
+                    )}
+                    {type === "pdf" && (
+                      <div className="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg uppercase">
+                        PDF
+                      </div>
+                    )}
                   </div>
-                </div>
-
-                <div className="p-6">
-                  <span className="inline-block px-3 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase rounded-full mb-3">
-                    {type === "pdf" ? "Circular" : "General News"}
-                  </span>
-                  <h3 className="text-lg font-bold text-[#1C3F82] leading-snug line-clamp-2 mb-4 group-hover:text-[#FF6B34] transition-colors">
-                    {notice.title}
-                  </h3>
-                  <p className="text-sm text-gray-400 font-medium">
-                    {formatDate(notice.date)}
-                  </p>
-                </div>
-              </article>
-            );
-          })}
-        </div>
-
-        {/* LOAD MORE */}
-        {visibleCount < filteredNotices.length && (
-          <div className="flex justify-center mt-20">
-            <button
-              onClick={() => setVisibleCount((p) => p + ITEMS_PER_LOAD)}
-              className="px-12 py-4 rounded-full font-bold bg-[#1C3F82] text-white hover:bg-[#FF6B34] hover:shadow-xl transition-all duration-300"
-            >
-              Load More News
-            </button>
+                  <div className="p-5">
+                    <p className="text-[10px] font-bold text-[#FF6B34] uppercase tracking-widest mb-1">
+                      {formatDate(notice.date)}
+                    </p>
+                    <h3 className="text-base font-bold text-[#1C3F82] leading-tight line-clamp-2 group-hover:text-[#FF6B34] transition-colors">
+                      {notice.title}
+                    </h3>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
 
-      {/* ================== NOTICE PREVIEW MODAL ================== */}
       {activeNotice && (
         <div
-          className="fixed inset-0 w-full h-full z-[9999] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300"
+          className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md flex items-end md:items-center justify-center p-0 md:p-8"
           onClick={closeModal}
         >
-          {/* Close & Action Buttons */}
-          <div className="absolute top-6 right-6 flex items-center gap-4 z-[10000]">
+          <div className="hidden md:flex absolute top-6 right-6 gap-3 z-[10001]">
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 setIsFullScreen(!isFullScreen);
               }}
-              className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-all"
-              title="Toggle Fullscreen"
+              className="p-3 bg-white/10 hover:bg-white/20 rounded-full text-white backdrop-blur-md"
             >
-              <Maximize size={24} />
+              <Maximize size={20} />
             </button>
             <button
               onClick={closeModal}
-              className="p-3 bg-[#FF6B34] hover:bg-[#e55a28] rounded-full text-white transition-all"
+              className="p-3 bg-[#FF6B34] hover:bg-[#ff8c5a] rounded-full text-white shadow-lg"
             >
-              <X size={24} />
+              <X size={20} />
             </button>
           </div>
 
-          {/* Modal Content */}
           <div
-            className={`bg-white rounded-2xl overflow-hidden shadow-2xl transition-all duration-500 ${isFullScreen ? "w-full h-full" : "max-w-4xl w-full max-h-[90vh]"}`}
+            className={`bg-white rounded-t-[2.5rem] md:rounded-[2.5rem] shadow-2xl transition-all duration-500 flex flex-col overflow-hidden ${isFullScreen ? "w-full h-full" : "max-w-5xl w-full h-[90vh] md:h-full md:max-h-[85vh]"}`}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Modal Header */}
-            <div className="p-6 border-b flex justify-between items-center bg-gray-50">
-              <div>
-                <h3 className="text-xl font-bold text-[#1C3F82] pr-10">
+            <div className="p-6 border-b shrink-0 bg-white flex justify-between items-center">
+              <div className="min-w-0 flex-1">
+                <h3 className="text-lg md:text-xl font-bold text-[#1C3F82] truncate pr-4">
                   {activeNotice.title}
                 </h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-[10px] md:text-xs text-gray-400 font-bold uppercase tracking-widest mt-1">
                   {formatDate(activeNotice.date)}
                 </p>
               </div>
               <a
                 href={
-                  activeNotice.image || activeNotice.file || activeNotice.pdf
+                  activeNotice.pdfUrl ||
+                  activeNotice.imageUrl ||
+                  activeNotice.file
                 }
-                download
                 target="_blank"
                 rel="noreferrer"
-                className="hidden md:flex items-center gap-2 bg-[#1C3F82] text-white px-4 py-2 rounded-lg text-sm font-bold"
+                download
+                className="flex items-center gap-2 bg-[#1C3F82] text-white px-4 py-2.5 md:px-6 md:py-3 rounded-xl text-xs md:text-sm font-bold hover:bg-[#FF6B34] transition-all shrink-0"
               >
-                <Download size={18} /> Download
+                <Download size={18} />{" "}
+                <span className="hidden xs:inline">Download</span>
               </a>
+              <button
+                onClick={closeModal}
+                className="md:hidden ml-4 p-2 text-gray-400"
+              >
+                <X size={24} />
+              </button>
             </div>
 
-            {/* Modal Body (Scrollable) */}
-            <div
-              className={`overflow-auto p-4 flex justify-center bg-gray-200 ${isFullScreen ? "h-[calc(100%-88px)]" : "h-[60vh] md:h-[70vh]"}`}
-            >
-              {getFileType(
-                activeNotice.image || activeNotice.file || activeNotice.pdf,
-              ) === "image" ? (
-                <img
-                  src={
-                    activeNotice.image || activeNotice.file || activeNotice.pdf
-                  }
-                  alt="Notice"
-                  className="max-w-full h-auto object-contain rounded-lg shadow-lg"
-                />
+            <div className="flex-1 bg-gray-50 overflow-hidden relative">
+              {/* REFINED RENDER LOGIC */}
+              {!(
+                activeNotice.pdfUrl ||
+                activeNotice.imageUrl ||
+                activeNotice.file
+              ) ? (
+                <div className="h-full flex flex-col items-center justify-center p-10 text-center">
+                  <AlertCircle size={48} className="text-red-400 mb-4" />
+                  <p className="text-slate-600 font-bold">Document Not Found</p>
+                </div>
               ) : getFileType(
-                  activeNotice.image || activeNotice.file || activeNotice.pdf,
-                ) === "pdf" ? (
-                <iframe
-                  src={`${activeNotice.pdf || activeNotice.file}#toolbar=0`}
-                  className="w-full h-full rounded-lg"
-                  title="Notice Detail"
-                />
+                  activeNotice.pdfUrl ||
+                    activeNotice.imageUrl ||
+                    activeNotice.file,
+                ) === "image" ? (
+                <div className="h-full overflow-y-auto p-4 flex justify-center items-start">
+                  <img
+                    src={
+                      activeNotice.imageUrl ||
+                      activeNotice.pdfUrl ||
+                      activeNotice.file
+                    }
+                    className="max-w-full h-auto rounded-xl shadow-md"
+                    alt="Full Notice"
+                  />
+                </div>
               ) : (
-                <div className="flex items-center justify-center h-full text-gray-500">
-                  No preview available for this notice.
+                <div className="w-full h-full">
+                  <object
+                    data={`${activeNotice.pdfUrl || activeNotice.file}#view=FitH`}
+                    type="application/pdf"
+                    className="w-full h-full"
+                  >
+                    <div className="flex flex-col items-center justify-center h-full bg-white p-10 text-center">
+                      <FileText size={64} className="text-slate-200 mb-4" />
+                      <p className="text-slate-600 font-medium mb-6">
+                        Preview unavailable.
+                      </p>
+                      <a
+                        href={activeNotice.pdfUrl || activeNotice.file}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="bg-slate-100 text-[#1C3F82] px-8 py-4 rounded-2xl font-bold hover:bg-slate-200 transition-all"
+                      >
+                        Open File
+                      </a>
+                    </div>
+                  </object>
                 </div>
               )}
             </div>
